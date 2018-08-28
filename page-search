@@ -1,0 +1,66 @@
+<?php
+
+get_header();
+the_post();
+
+function theme_init_search() {
+$query = sanitize_text_field($_GET['q']);
+?>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+
+  input[type="button"], button, .button {
+    position: relative;
+    display: inline-block;
+    padding: 25px 38px;
+    margin: 0;
+    background: #716859;
+    background-clip: padding-box;
+    color: #fff;
+    text-decoration: none;
+    line-height: 0;
+    cursor: pointer;
+    border: 0;
+    font-size: 100%;
+    font-weight: 600;
+    text-shadow: none;
+    text-align: center;
+    vertical-align:middle;
+}
+</style>
+
+<?php
+}
+  add_action('wp_footer', 'theme_init_search');
+?>
+
+
+<div id="main" class="wrap">
+<div id="content">
+
+<div class="containter">
+ <a href="https://secure.xyzee.org/search.aspx" style="text-decoration:none;"><button style="font-size: 28px; bg-color:#000000; background-color:#63b707;" type="button" class="btn btn-primary btn-lg btn-block">Search for a XYZ to Sponsor Here</button></a>
+</div>
+
+<div style="float:left;padding-left:25px;"><h1>Search Results</h1></div> <div style="float:left;padding-top:25px;padding-left:10px;"><h4>(xyz are excluded from this search) </h4></div>
+
+<div>
+  <script>
+    (function() {
+      var cx = '011530237511111111189:ulhhugrnavk'; 
+      var gcse = document.createElement('script');
+      gcse.type = 'text/javascript';
+      gcse.async = true;
+      gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(gcse, s);
+    })();
+  </script>
+  <gcse:search></gcse:search>
+</div>
+</div></div>
+
+<?php
+get_footer();
