@@ -1,0 +1,69 @@
+<div id="footer">
+<div class="wrap">
+
+<?php
+wp_nav_menu(array(
+	'theme_location' => 'footer',
+	'menu_id' => 'menu-footer',
+	'depth' => 1,
+	'container_id' => 'nav-footer',
+	'fallback_cb' => '',
+));
+
+$html = get_ad('footer-logos');
+if ($html):
+    ?>
+<div id="footer-col1">
+  XYZ is a registered 501(c)3 nonprofit organization. All donations in the United States are tax-deductible in full or in part.
+</div>
+<div class="logos"><?php echo $html;?></div><div class="sep"></div><?php endif;?>
+
+<div class="social">
+  <a href="https://www.facebook.com/XYZ" class="icon-facebook"></a>
+  <a href="https://www.youtube.com/user/XYZ" class="icon-youtube"></a>
+</div>
+
+<div id="footer-col2">
+	<b>XYZ</b><br>
+	1234 XYZland Drive<br>
+	XYZo, IZ 41111<br>
+	<b>Toll-free:</b> 1-800-1234-330<br>
+	<b>Local:</b> 219-464-1111
+</div>
+
+<div class="copyright">
+  &copy; <?php echo date('Y');?> <?php echo bloginfo('name');?>
+</div>
+
+</div></div>
+
+</div> <!-- /wrap -->
+
+<?php wp_footer();?>
+
+<!--[if lte IE 8 ]>
+<script src="<?php echo get_bloginfo('template_url');?>/js/ie8.js"></script>
+<![endif]-->
+
+<!--[if lt IE 8 ]>
+<script src="<?php echo get_bloginfo('template_url');?>/js/ie7.js"></script>
+<![endif]-->
+<?php
+if (preg_match('/staging|dev/', $_SERVER['HTTP_HOST'])):?>
+<script>
+jQuery(function($) {
+	$('a[href^="https://secure.xyz.org"]').each(function() {
+		var href = $(this).attr('href');
+		$(this).attr('href', href.replace(/https:\/\/secure.xyz.org/, 'http://proto.xyz.org'));
+	});
+	$('form[action^="https://secure.xyz.org"]').each(function() {
+		var href = $(this).attr('action');
+		$(this).attr('action', href.replace(/https:\/\/secure.xyz.org/, 'http://proto.xyz.org'));
+	});
+});
+</script>
+<?php endif;?>
+
+<?php echo get_ad('footer-tags');?>
+</body>
+</html>
