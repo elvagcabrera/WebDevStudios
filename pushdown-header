@@ -1,0 +1,74 @@
+<?php
+  $query = apply_filters('theme_pushdown_query', array(
+	  'post_type' => 'pushdown',
+	  'posts_per_page' => 1,
+  ));
+  query_posts($query);
+  if (have_posts()):
+    the_post();
+    $ID = get_the_ID();
+    $teaser = get_post_meta($ID, 'teaser', true);
+    $label = get_post_meta($ID, 'label', true);
+    $url = get_post_meta($ID, 'canonical', true);
+
+    $bgcolor = get_post_meta($ID, 'teaser-color', true);
+    $textcolor = get_post_meta($ID, 'teaser-textcolor', true);
+
+    $buttoncolor = get_post_meta($ID, 'button-color', true);
+    if (!$buttoncolor) $buttoncolor = '#63b707';
+    $buttontextcolor = get_post_meta($ID, 'button-textcolor', true);
+    if (!$buttontextcolor) $buttontextcolor = '#ffffff';
+
+    $opened = get_post_meta($ID, 'opened', true) ? true : false;
+
+    $style = array();
+    if ($bgcolor)   $style[] = 'background-color:'.$bgcolor;
+    if ($textcolor) $style[] = 'color:'.$textcolor;
+    $style = implode(';',$style);
+    if (!$teaser) $teaser = '!!Teaser headline missing!!';
+?>
+
+<div id="pushdown">
+<div class="teaser toggle" data-toggle="pushdown-on" style="<?php echo $style;?>">
+<div class="toggle2">
+    <span class="show">Show <span class="icon icon-angle-down"></span></span>
+    <span class="hide">Hide <span class="icon icon-angle-up"></span></span>
+</div>
+  <h4><?php echo $teaser;?></h4>
+</div>
+<div class="wrap">
+  <div class="content">
+    <div class="row">
+     <?php
+        $content_class = 'col1_1';
+       if (has_post_thumbnail()):
+          $content_class = 'col11_16';
+       ?>
+<div class="col5_16">
+  <a href="<?php echo $url;?>"><?php the_post_thumbnail('push-down');?></a>
+</div>
+<?php endif;?>
+<div class="<?php echo $content_class;?>">
+<h3 class="title"><a href="<?php echo $url;?>"><?php the_title();?></a></h3>
+
+<?php the_content();?>
+  <?php if ($label):?><a href="<?php echo $url;?>" class="button green cta" style="color: <?php echo $buttontextcolor;?>;background-color: <?php echo $buttoncolor;?>;"><?php echo $label;?></a><?php endif;?>
+        </div>
+     </div>
+  </div>
+</div>
+</div>
+<?php if ($opened):?>
+<script>
+jQuery(function($) {
+setTimeout(function() {
+	if (document.cookie.indexOf('pushdown_opened') >= 0) return;
+	$(document.body).addClass('pushdown-on');
+	document.cookie = 'pushdown_opened=1;path=/;';
+}, 250);
+});
+</script>
+<?php endif;?>
+<?php
+endif;
+wp_reset_query();
