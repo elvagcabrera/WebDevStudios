@@ -1,0 +1,46 @@
+function get_related_author_posts() {
+    global $authordata, $post;
+    $authors_posts = get_posts( array( 'author' => $authordata->ID, 'post__not_in' => array( $post->ID ), 'posts_per_page' => 3 ) );
+    $output = '<ul>';
+    foreach ( $authors_posts as $authors_post ) {
+        $output .= '<li><a href="' . get_permalink( $authors_post->ID ) . '">' . apply_filters( 'the_title', $authors_post->post_title, $authors_post->ID ) . '</a></li>';
+    }
+    $output .= '</ul>';
+    return $output;
+}
+
+add_action( 'init', 'cptui_register_my_cpts_mcontent' );
+function cptui_register_my_cpts_mcontent() {
+	$labels = array(
+		"name" => __( 'mission contents', '' ),
+		"singular_name" => __( 'mission content', '' ),
+		"all_items" => __( 'All content', '' ),
+		"add_new" => __( 'Add New Blog', '' ),
+		"add_new_item" => __( 'a', '' ),
+		"edit_item" => __( 'Edit Blog', '' ),
+		"new_item" => __( 'New Blog', '' ),
+		);
+
+	$args = array(
+		"label" => __( 'mission contents', '' ),
+		"labels" => $labels,
+		"description" => "Missionary Contents",
+		"public" => true,
+		"publicly_queryable" => true,
+		"show_ui" => true,
+		"show_in_rest" => false,
+		"rest_base" => "",
+		"has_archive" => true,
+		"show_in_menu" => true,
+		"exclude_from_search" => false,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"rewrite" => array( "slug" => "mcontent", "with_front" => true ),
+		"query_var" => true,
+
+		"supports" => array( "title", "editor", "thumbnail", "author" ),
+		"taxonomies" => array( "missionary-type" ),
+			);
+	register_post_type( "mcontent", $args );
+}
