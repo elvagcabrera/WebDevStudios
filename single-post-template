@@ -1,0 +1,39 @@
+<?php
+/*
+Single Post Template: Missionary Posts
+Description:  Missionary Post Template
+*/
+?>
+
+<?php
+add_body_class('single-column');
+
+if ($_GET['replytocom']) add_body_class('comments-on');
+get_header();
+include('header-blog.php');
+?>
+<div id="blog-hero" <?php post_class('hero');?>>
+<div class="bg"></div>
+<div class="wrap"><div class="content">
+
+
+ <?php
+ $args = array(
+                 'post_type' => 'missionary_content',
+                 'post_status' => 'publish',
+                 'posts_per_page' => 5,
+                 'orderby' => 'date',
+                 'order' => 'DESC'
+                 );
+ $results = get_posts($args);
+
+foreach($results as $post) : setup_postdata($post); ?>
+	<h2><?php the_title(); ?></h2>
+	<div class="meta">
+		<a href="<?php the_permalink(); ?>"><?php the_title();?></a>
+	<span class="date"><?php the_time('m/d/y');?></span>
+	<span class="author">By: <?php the_author(); ?></span>
+	<?php the_excerpt();?>
+	</div>
+<?php endforeach;
+ wp_reset_postdata(); ?>
